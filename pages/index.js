@@ -1,33 +1,31 @@
-import { Fragment } from 'react';
-import Head from 'next/head';
+import Head from "next/head";
 
-import FeaturedPosts from '../components/home-page/featured-posts';
-import Hero from '../components/home-page/hero';
-import { getFeaturedPosts } from '../lib/posts-util';
+import EventList from "../components/events/event-list";
+import { getFeaturedEvents } from "../helpers/api-util";
 
 function HomePage(props) {
   return (
-    <Fragment>
+    <div>
       <Head>
-        <title>Max' Blog</title>
+        <title>NextJS Events</title>
         <meta
-          name='description'
-          content='I post about programming and web development.'
+          name="description"
+          content="Find a lot of great events that allow you to evolve..."
         />
       </Head>
-      <Hero />
-      <FeaturedPosts posts={props.posts} />
-    </Fragment>
+      <EventList events={props.events} />
+    </div>
   );
 }
 
-export function getStaticProps() {
-  const featuredPosts = getFeaturedPosts();
+export async function getStaticProps() {
+  const featuredEvents = await getFeaturedEvents();
 
   return {
     props: {
-      posts: featuredPosts,
+      events: featuredEvents,
     },
+    revalidate: 1800,
   };
 }
 
